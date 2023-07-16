@@ -1,0 +1,447 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <meta content="always" name="referrer">
+  <meta name="robots" content="all">
+  <meta name="author" content="Neo Lee">
+  <meta name="email" content="g29tony@foxmail.com">
+  <meta name="github" content="https://github.com/g29times">
+  <meta name="description" content="Introduction about the achivements of Japan film makers">
+  <meta name="keywords" content="Film Maker,Japan,Manga">
+  <!-- 资料 - 框架 -->
+  <ref title="时间轴模板" url="http://www.jq22.com/code1080"></ref>
+  <ref title="时间轴参考" url="http://www.fly63.com/nav/2732"></ref>
+  <ref title="UI框架" url="https://www.layui.com/demo/timeline.html"></ref>
+  <ref title="CSS 手册" url="https://www.w3school.com.cn/css/pr_class_display.asp"></ref>
+  <ref title="导航栏" url="https://www.cnblogs.com/yxyblogs/p/5050522.html"></ref>
+  <!-- 资料 - UI -->
+  <ref title="设置span的宽度" url="http://blog.sina.com.cn/s/blog_70b0792b0100uqfl.html"></ref>
+  <ref title="文字溢出 自动换行" url="https://www.cnblogs.com/dashenjileige/p/10833340.html"></ref>
+  <ref title="图片和文字的对齐方式" url="https://www.cnblogs.com/cyycyhcbw/p/12800957.html"></ref>
+  <ref title="字体1" url="https://www.cnblogs.com/hanqishihu/p/6284717.html"></ref>
+  <ref title="字体2" url="http://bj.amseo.cn/web/24.html"></ref>
+  <!-- 资料 - 内容 -->
+  <ref title="宫崎骏-作者信息1" url="https://www.1905.com/mdb/star/2006/"></ref>
+  <ref title="宫崎骏-作者信息2" url="https://movie.douban.com/celebrity/1054439/"></ref>
+  <ref title="宫崎骏-作者信息3" url="http://www.4399dmw.com/bagua/20121212-140302.html"></ref>
+  <!-- 样式 -->
+  <style>
+    body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5%;
+      font-size: 100%;
+      font-family: "Noto Sans", sans-serif;
+      color: #eee9dc;
+      background: #48b379;
+    }
+
+    h2 {
+      margin: 3em 0 0 0;
+      font-size: 1.5em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* 头部图片位置 */
+    .header-wrapper-poster {
+        width: 168px;
+        height: 230px;
+        float: right;
+        display: inline-block;
+    }
+
+    /* 导航 */
+    #nav{
+        /* position: fixed; */
+        left: 0;
+        top: 10px;
+    }
+    #nav span{
+        width: 50px;
+        height: 30px;
+        font: bold 20px/30px Helvetica,Arial,sans-serif,SimHei,Tahoma;
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 40px #ff00de, 0 0 70px #ff00de;
+        text-align: center;
+        list-style-type: none;
+        background: #5e6fb3;
+        color: #fff;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    /* -------------------------------------
+     * timeline
+     * ------------------------------------- */
+    #timeline {
+      list-style: none;
+      margin: 50px 0 30px 120px;
+      padding-left: 30px;
+      border-left: 8px solid #eee9dc;
+    }
+    #timeline li {
+      margin: 40px 0;
+      position: relative;
+    }
+    #timeline p {
+      margin: 0 0 15px;
+    }
+
+    .date {
+      margin-top: -10px;
+      top: 50%;
+      left: -158px;
+      font-size: 1.95em; /* 0.95 -> 1.95 */
+      line-height: 20px;
+      position: absolute;
+    }
+
+    .circle {
+      margin-top: -10px;
+      top: 50%;
+      left: -44px;
+      width: 10px;
+      height: 10px;
+      background: #48b379;
+      border: 5px solid #eee9dc;
+      border-radius: 50%;
+      display: block;
+      position: absolute;
+    }
+
+    .content {
+      max-height: 200px;
+      padding: 50px 20px 0;
+      border-color: transparent;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 0.5em;
+      position: relative;
+    }
+    label {
+      font-size: 1.3em;
+      color: #3f51b5;
+      position: absolute;
+      z-index: 100;
+      cursor: pointer;
+      top: 20px;
+      transition: transform 0.2s linear;
+    }
+    .content:before, .content:after {
+      content: "";
+      width: 0;
+      height: 0;
+      border: solid transparent;
+      position: absolute;
+      pointer-events: none;
+      right: 100%;
+    }
+    .content:before {
+      border-right-color: inherit;
+      border-width: 20px;
+      top: 50%;
+      margin-top: -20px;
+    }
+    .content:after {
+      border-right-color: #48b379;
+      border-width: 17px;
+      top: 50%;
+      margin-top: -17px;
+    }
+    .content p {
+      height: 180px; /* 新增 固定段落高度 */
+      max-height: 200px;
+      color: transparent;
+      text-align: justify;
+      word-break: break-word;
+      hyphens: auto;
+      overflow: hidden;
+    }
+    p img { /* 新增 段落图片设置 */
+      height: 100%;
+      vertical-align: middle;
+      /*  vertical-align: text-top;    在顶部 */
+      /*  vertical-align: middle;      在中间位置 */
+      /*  vertical-align: text-bottom; 在底部 */
+    }
+    span { /* 新增 段落内容设置 */
+      display: -moz-inline-box;
+      display: inline-block;
+      width: 800px; /* 设置span的宽度 */
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+
+    .radio {
+      display: none;
+    }
+    .radio:checked + .relative label {
+      cursor: auto;
+      transform: translateX(42px);
+    }
+    .radio:checked + .relative .circle {
+      background: #f98262;
+    }
+    .radio:checked ~ .content {
+      max-height: 220px;
+      border-color: #eee9dc;
+      margin-right: 20px;
+      transform: translateX(20px);
+      transition: max-height 0.4s linear, border-color 0.5s linear, transform 0.2s linear;
+    }
+    .radio:checked ~ .content p {
+      max-height: 220px;
+      color: #eee9dc;
+      transition: color 0.3s linear 0.3s;
+    }
+
+    /* -------------------------------------
+     * mobile phones (vertical version only)
+     * ------------------------------------- */
+    @media screen and (max-width: 767px) {
+      #timeline {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+      }
+      #timeline li {
+        margin: 50px 0;
+      }
+
+      label {
+        width: 85%;
+        font-size: 1.1em;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: block;
+        transform: translateX(18px);
+      }
+
+      .content {
+        padding-top: 45px;
+        border-color: #eee9dc;
+      }
+      .content:before, .content:after {
+        border: solid transparent;
+        bottom: 100%;
+      }
+      .content:before {
+        border-bottom-color: inherit;
+        border-width: 17px;
+        top: -16px;
+        left: 50px;
+        margin-left: -17px;
+      }
+      .content:after {
+        border-bottom-color: #48b379;
+        border-width: 20px;
+        top: -20px;
+        left: 50px;
+        margin-left: -20px;
+      }
+      .content p {
+        font-size: 0.9em;
+        line-height: 1.4;
+      }
+
+      .circle, .date {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部 -->
+  <section class="layout-header banner">
+  	<div class="layout-header-wrapper" style="no-repeat center center; min-height:230px; height:230px;">
+    	<div class="header-wrapper-title hover-img">
+    		<a class="header-wrapper-poster" href="/mdb/star/2006" title="宫崎骏">
+    			<img src="img/author.jpg" alt="宫崎骏" width="168" height="230">
+    		</a>
+    		<h1 class="header-wrapper-h1">宫崎骏</h1>
+    		<p class="header-wrapper-p">Miyazaki Hayao</p>
+    	</div>
+  	</div>
+  </section>
+
+  <p>
+    <span style="display:none">Please set the $vertical variable to false to see the horizontal version.
+    </span>
+  </p>
+
+  <!-- 导航 -->
+  <div id="nav">
+    <span data-to="li1">1984</span>
+    <span data-to="li2">1986</span>
+    <span data-to="li3">1988</span>
+    <span data-to="li4">1989</span>
+    <span data-to="li5">1992</span>
+    <span data-to="li6">1997</span>
+    <span data-to="li7">2001</span>
+    <span data-to="li8">2004</span>
+    <span data-to="li9">2008</span>
+  </div>
+
+  <!-- 时间轴 -->
+  <section class="layout-wrapper commonStyle showStyle">
+  	<ul id='timeline'>
+  		<li class='work' id='li1'>
+  			<input class='radio' id='work1' name='works' type='radio' checked>
+  			<div class="relative">
+  				<label for='work1'>风之谷-风之谷的娜乌西卡</label>
+  				<span class='date'>1984</span>
+  				<span class='circle'></span>
+  			</div>
+  			<div class='content'>
+  				<p>
+            <img src="img/1Nausicaa.jpg"  alt="风之谷" />
+    				<span>剧情: 故事从巨型输送机坠落在风之谷开始。这架输送机是多鲁美奇亚原本用来载送工业都市“培吉特”国俘虏。娜乌西卡将夹在残骸中的少女拉丝黛儿救出，而少女却要求娜乌西卡将残骸烧毁。虽然不明其意但为了让少女安心而答应了，少女随即死去。隔天在坠落地点发现了跳动着的巨大血管群。那就是在“七日之火”将世界付之一炬的最终兵器“巨神兵”...
+            </span>
+    			</p>
+          <a target="view_window" href="1Nausicaa.html">查看详情</a>
+  			</div>
+  		</li>
+  		<li class='work' id='li2'>
+  			<input class='radio' id='work2' name='works' type='radio'>
+  			<div class="relative">
+  				<label for='work2'>天空之城-伴随着你</label>
+  				<span class='date'>1986</span>
+  				<span class='circle'></span>
+  			</div>
+  			<div class='content'>
+  				<p>
+  					<img src="img/2Sheeta.jpg"  alt="天空之城" />
+  				  <span>剧情: 小姑娘希达（Sheeta）是传说中“天空之城拉普达（Laputa）”王族的后裔。那曾是超越地上文明不知几千年的空中文明，但不知为何，希达的祖先离开“天空之城”，抛弃发达的科技，在地面上过起隐居的生活。然而一天，几个不明身份的男子出现在她家门口...故事由希达所坐的军队飞行船遭到空中海盗的袭击而开始。争斗中希达...
+            </span>
+  			  </p>
+          <a target="view_window" href="2Sheeta.html">查看详情</a>
+  			</div>
+  		</li>
+  		<li class='work' id='li3'>
+  			<input class='radio' id='work3' name='works' type='radio'>
+  			<div class="relative">
+  				<label for='work3'>龙猫-邻家的龙猫</label>
+  				<span class='date'>1988</span>
+  				<span class='circle'></span>
+  			</div>
+  			<div class='content'>
+  				<p>
+  					<img src="img/3Totoro.jpg"  alt="龙猫" />
+  				  <span>剧情: 小月的母亲生病住院了，父亲带着她与四岁的妹妹小梅到乡间的居住 。她们对那里的环境都感到十分新奇，也发现了很多有趣的事情。她们遇 到了很多小精灵，她们来到属于她们的环境中，看到了她们世界中很多的 奇怪事物，更与一只大大胖胖的龙猫成为了朋友。龙猫与小精灵们利用他 们的神奇力量，为小月与妹妹带来了很多神奇的景观，令她们大开眼...
+            </span>
+  			  </p>
+          <a target="view_window" href="3Totoro.html">查看详情</a>
+  			</div>
+  		</li>
+      <li class='work' id='li4'>
+        <input class='radio' id='work4' name='works' type='radio'>
+        <div class="relative">
+          <label for='work4'>魔女宅急送-晴天</label>
+          <span class='date'>1989</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/4KiKi.jpg"  alt="魔女宅急便" />
+            <span>剧情: 魔法少女一旦到了13岁就必须离开家进行为期一年的独立修行，琪琪也不例外。她带着黑猫吉吉来到一个靠海的大城市中，可是谁都不搭理她。沮丧的琪琪偶然替别人送去一件遗失品，从而获得了面包店老板娘的好感。在她的帮助下，琪琪利用自己的飞行魔法开始了快递业务。渐渐地，琪琪习惯了新的环境，工作也进行得很顺利，她结识不少新朋友。一个...
+            </span>
+          </p>
+          <a target="view_window" href="4KiKi.html">查看详情</a>
+        </div>
+      </li>
+      <li class='work' id='li5'>
+        <input class='radio' id='work5' name='works' type='radio'>
+        <div class="relative">
+          <label for='work5'>红猪</label>
+          <span class='date'>1992</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/5PorcoRosso.jpg"  alt="红猪" />
+            <span>剧情: 第一次大战时期意大利空军的王牌飞行员波鲁科·罗森中了魔法变成了一头猪。如今他成了一名赏金猎人，专门在亚德里亚海空域阻击空中劫匪。劫匪们为了打倒罗森从美国请来了超级飞行员卡基斯。卡基斯趁罗森的飞机引擎发生故障之时将其击落。罗森把爱机送往老朋友比克罗的工厂修理，在那里遇到了比克罗的孙女菲欧。菲欧完美地修复了罗森的座...
+            </span>
+          </p>
+          <a target="view_window" href="5PorcoRosso.html">查看详情</a>
+        </div>
+      </li>
+      <li class='work' id='li6'>
+        <input class='radio' id='work6' name='works' type='radio'>
+        <div class="relative">
+          <label for='work6'>幽灵公主-魔法公主</label>
+          <span class='date'>1997</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/6Mononoke.jpg"  alt="幽灵公主" />
+            <span>剧情: 故事发生在日本的室町时代，阿席达卡(アシタカ音译 有的版本误译为“飞鸟”)所在的部落虾夷族位于日本的东北部。一天一个从西方来的邪神要侵略阿席达卡所在的村庄，这个邪神是由受了诅咒的野猪神变成的。眼看邪神步步进逼，阿席达卡挺身而出，虽然后来他打死了野猪神，但是他也因此中了邪神的诅咒，性命难保。为了化解诅咒之谜和拯救...
+            </span>
+          </p>
+          <a target="view_window" href="6Mononoke.html">查看详情</a>
+        </div>
+      </li>
+      <li class='work' id='li7'>
+        <input class='radio' id='work7' name='works' type='radio'>
+        <div class="relative">
+          <label for='work7'>千与千寻-永远常在</label>
+          <span class='date'>2001</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/7Chihiro.jpg"  alt="千与千寻" />
+            <span>剧情: 千寻是一个瘦小的十岁小女孩。《千与千寻》的故事从她的身上开始展开。千寻跟着父母从这个城市搬迁到另一个城市，途中所发生的一段奇妙旅程。 影片的第一幕就是千寻睁开眼，眼神里充满着失落，她怀念着以前的班级、以前的同学，手上还捧着临别时同学送她的鲜花。 他们开着车，人生地不熟的，走错路是正常的。只是他们都没有想到，他们会...
+            </span>
+          </p>
+          <a target="view_window" href="7Chihiro.html">查看详情</a>
+        </div>
+      </li>
+      <li class='work' id='li8'>
+        <input class='radio' id='work8' name='works' type='radio'>
+        <div class="relative">
+          <label for='work8'>哈尔的移动城堡</label>
+          <span class='date'>2004</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/8Sophie.jpg"  alt="哈尔的移动城堡" />
+            <span>剧情: 18岁的苏菲和继母以及妹妹居住在欧洲的一个小镇中，自从父亲死后，继母凡妮就把女儿们安排到原本由父亲经营的制帽小店营生，但是苏菲的妹妹却对这并不感兴趣，于是她很快离开了制帽店；而苏菲则坚持留了下来，因为这是父亲的最爱。 一次，苏菲在看望妹妹的路上，被两个士兵截住。这个时候一个神秘男子——哈尔出现了，他用...
+            </span>
+          </p>
+          <a target="view_window" href="8Sophie.html">查看详情</a>
+        </div>
+      </li>
+      <li class='work' id='li9'>
+        <input class='radio' id='work9' name='works' type='radio'>
+        <div class="relative">
+          <label for='work9'>悬崖上的金鱼公主-崖上的波妞</label>
+          <span class='date'>2008</span>
+          <span class='circle'></span>
+        </div>
+        <div class='content'>
+          <p>
+            <img src="img/9Ponyo.jpg"  alt="悬崖上的金鱼公主" />
+            <span>剧情: 5岁的宗介生长在海边小城，他的家就在临海的悬崖上。一天，宗介捡到了一个被海浪冲上岸的废玻璃瓶，里面有条受困的小金鱼。小金鱼名叫波尼，她是人鱼女王的女儿，偷偷驾着水母溜出来玩的时候撞进了瓶子里。宗介把波尼带回了自己家，养在塑料盆里。波尼在宗介家过得很愉快，她很喜欢宗介，宗介也喜欢她。然而，快乐的日子很快就过去了，...
+            </span>
+          </p>
+          <a target="view_window" href="9Ponyo.html">查看详情</a>
+        </div>
+      </li>
+  	</ul>
+  </section>
+
+  <script src="js/jquery-3.5.1.min.js"></script>
+  <script>
+    $('#nav').on('click','span',function(e){
+      var target = e.target;
+      var id = $(target).data("to");
+      // debugger;
+      $('html,body').animate({scrollTop:$('#' + id).offset().top}, 800);
+    });
+  </script>
+</body>
+</html>
