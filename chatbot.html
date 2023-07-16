@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="no-js" lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="imagetoolbar" content="no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta name="format-detection" content="telephone=no,email=no,address=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+		<meta name="description" content="An AI based chat bot">
+		<meta name="keywords" content="OpenAI,ChatGPT">
+		<title>OpenAI - ChatGPT</title>
+		<link rel="stylesheet" href="easyhelper.min.css">
+		<script src="es6-shim.min.js"></script>
+		<script src="http://www.jq22.com/jquery/jquery-3.3.1.js"></script>
+		<script src="jquery.transit.min.js"></script>
+		<script src="easyhelper.min.js"></script>
+    
+		<!-- favicon icon -->
+		<link rel="icon" href="img/favicon.png">
+		<!-- All CSS Files Here -->
+		<link rel="stylesheet" href="css/style.css">
+		
+		<style>
+			#chatgpt-response { 
+				font-family: "宋体"; font-size: 20px; color: #0000FF; font-weight: bold; 
+			}
+			.wrapper {
+				text-align: center;
+				margin: 50px auto;
+			}
+			.wrapper button {
+				width: 120px;
+				margin: 0 10px;
+			}
+		</style>
+		<script src="js/vendor/modernizr-2.8.3.min.js"></script>
+		<script>
+		  async function callCHATGPT() {
+			var responseText1 = document.getElementById("chatgpt-response");
+			responseText1.innerHTML = ""
+			function printMessage(message) {
+			  var responseText = document.getElementById("chatgpt-response");
+			  var index = 0;
+
+			  // 创建一个定时器，每隔一段时间打印一个字符
+			  var interval = setInterval(function() {
+				responseText.innerHTML += message[index];
+				index++;
+
+				// 当打印完成时，清除定时器
+				if (index >= message.length) {
+				  clearInterval(interval);
+				}
+			  },
+			  150); // 每隔150毫秒打印一个字符
+			}
+			var xhr = new XMLHttpRequest();
+			var url = "https://api.openai.com/v1/completions";
+			xhr.open("POST", url, true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.setRequestHeader("Authorization", "Bearer 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");
+			xhr.onreadystatechange = function() {
+			  if (xhr.readyState === 4 && xhr.status === 200) {
+				var json = JSON.parse(xhr.responseText);
+				var response = json.choices[0].text;
+
+				// 将CHATGPT的返回值输出到文本框
+				var responseText = document.getElementById("chatgpt-response");
+				var index = 0;
+
+				// 创建一个定时器，每隔一段时间打印一个字符
+				var interval = setInterval(function() {
+				  responseText.innerHTML += response[index];
+				  index++;
+
+				  // 当打印完成时，清除定时器
+				  if (index >= response.length) {
+					clearInterval(interval);
+				  }
+				},
+				50); // 每隔50毫秒打印一个字符
+			  }
+			};
+
+			var data = JSON.stringify({
+			  "prompt": document.getElementById("chat-gpt-input").value,
+			  "max_tokens": 2048,
+			  "temperature": 0.5,
+			  "top_p": 1,
+			  "frequency_penalty": 0,
+			  "presence_penalty": 0,
+			  "model": "text-davinci-003"
+			});
+			console.log(data);
+			await printMessage('...');
+			await xhr.send(data);
+		  }
+		</script>
+	</head>
+
+	<body>
+		<div class="wrapper">
+			<!--请求区-->
+			<textarea class="form-control" id="chat-gpt-input" placeholder="输入问题或描述" rows="5" resize="none" style="width: 95%; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 10px;"></textarea>
+            <!--请求按钮-->
+			<div class="wrapper">
+				<button onclick="callCHATGPT()" class="helper-button-info" id="dialog">开启对话</button>
+			</div>
+			<script>
+				$( "#dialog" ).on("click", function () {
+					Helper.ui.dialog({
+						title: document.getElementById("chat-gpt-input").value,
+						content: "请耐心等待回答，如果长时间没反应请联系管理员",
+						autoClose: 2000
+					});
+				})
+			</script>
+			<!--响应区-->
+			<textarea class="form-control" id="chatgpt-response" placeholder="请耐心等待回答，如果长时间没反应请联系管理员" rows="15" resize="none" style="width: 95%;height: 600px; margin: 0 auto; background-color: #f4f4f4; color: #333; border: 1px solid #ccc; border-radius: 10px; overflow: scroll;" readonly="true"></textarea>
+		</div>
+		<div class="page-loader">
+			<h4><a href="https://platform.openai.com/examples">OpenAI</a></h4>
+		</div>
+	</body>
+</html>
