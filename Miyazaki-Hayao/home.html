@@ -25,7 +25,18 @@
   <ref title="宫崎骏-作者信息2" url="https://movie.douban.com/celebrity/1054439/"></ref>
   <ref title="宫崎骏-作者信息3" url="http://www.4399dmw.com/bagua/20121212-140302.html"></ref>
   <!-- 样式 -->
+  <link type="text/css" rel="styleSheet"  href="css/chat-box.css" />
   <style>
+    .chat-box {
+            margin-bottom: 30px auto;
+            max-width: 850px;
+            border: 0px solid #ccc;
+            padding: 20px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            top: 10px;
+    }
+
     body {
       max-width: 1200px;
       margin: 0 auto;
@@ -263,6 +274,13 @@
     		<h1 class="header-wrapper-h1">宫崎骏</h1>
     		<p class="header-wrapper-p">Miyazaki Hayao</p>
     	</div>
+      <div class="chat-box">
+          <div class="messages"></div>
+          <form id="chat-form">
+              <input type="text" name="user-message" placeholder="Type your message here..." />
+              <button type="submit" class="btn">Ask Miyazaki</button>
+          </form>
+      </div>
   	</div>
   </section>
 
@@ -433,7 +451,7 @@
       </li>
   	</ul>
   </section>
-
+	<script src="js/chat.js"></script>
   <script src="js/jquery-3.5.1.min.js"></script>
   <script>
     $('#nav').on('click','span',function(e){

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with ChatGPT</title>
+    <meta name="description" content="230320 init">
+    <style>
+        body {
+            background-image: url('2.jfif');
+        }
+        /* Style the chat box */
+        .chat-box {
+            margin: 30px auto;
+            max-width: 1500px;
+            border: 2px solid #ccc;
+            padding: 20px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-box input[type=text],
+        .chat-box textarea {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 3px;
+            resize: none;
+        }
+
+        .chat-box input[type=text] {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .messages {
+            max-height: 500px;
+            overflow-y: scroll;
+        }
+
+        .chat-box .messages p {
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 3px;
+            line-height: normal;
+            word-wrap: break-word;
+            max-width: 100%;
+            position: relative;
+        }
+
+        .chat-box .messages p::before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid #f4f4f4;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            left: -10px;
+            top: 10px;
+        }
+
+        .chat-box .messages p::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid #ccc;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            left: -9px;
+            top: 10px;
+        }
+
+        .chat-box .bot-message {
+            text-align: left;
+            margin-left: 50px;
+        }
+
+        .chat-box .user-message {
+            text-align: right;
+            margin-right: 50px;
+        }
+
+        .chat-box .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            float: right;
+        }
+
+        .chat-box .btn:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-box">
+    <div class="messages"></div>
+    <form id="chat-form">
+        <input type="text" name="user-message" placeholder="Type your message here..." />
+        <button type="submit" class="btn">Ask Miyazaki</button>
+    </form>
+</div>
+
+<script>
+    // Connect to the WebSocket server
+    const socket = new WebSocket('ws://localhost:8080/chat/chatSocket');
+
+    // When the WebSocket is open
+    socket.addEventListener('open', (event) => {
+        console.log('WebSocket is open');
+    });
+
+    // When the WebSocket receives a message
+    socket.addEventListener('message', (event) => {
+        const message = event.data;
+        console.log('WebSocket received a message:', message);
+
+        // Add the bot message to the messages div
+        const messagesDiv = document.querySelector('.messages');
+        const botMessageDiv = document.createElement('div');
+        botMessageDiv.classList.add('bot-message');
+        const botMessageP = document.createElement('p');
+        botMessageP.textContent = `ChatGPT: ${message}`;
+        botMessageDiv.appendChild(botMessageP);
+        messagesDiv.appendChild(botMessageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    // When the form is submitted
+    const chatForm = document.getElementById('chat-form');
+    chatForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        // Get the user input
+        const userInput = document.querySelector('input[name=user-message]');
+        const userMessage = userInput.value;
+        userInput.value = '';
+
+        // Add the user message to the messages div
+        const messagesDiv = document.querySelector('.messages');
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.classList.add('user-message');
+        const userMessageP = document.createElement('p');
+        userMessageP.textContent = `You: ${userMessage}`;
+        userMessageDiv.appendChild(userMessageP);
+        messagesDiv.appendChild(userMessageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+        // Send the user message to the WebSocket server
+        socket.send(userMessage);
+    });
+</script>
+</body>
+</html>
