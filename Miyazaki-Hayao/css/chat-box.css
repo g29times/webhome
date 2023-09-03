@@ -1,0 +1,90 @@
+        /* Style the chat box */
+        /* .chat-box {
+            margin-bottom: 30px auto;
+            max-width: 1500px;
+            border: 0px solid #ccc;
+            padding: 20px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        } */
+
+        .chat-box input[type=text],
+        .chat-box textarea {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border-radius: 3px;
+            resize: none;
+        }
+
+        .chat-box input[type=text] {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .chat-box .messages {
+            max-height: 100px;
+            overflow-y: scroll;
+        }
+
+        .chat-box .messages p {
+            margin: 0;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 3px;
+            line-height: normal;
+            word-wrap: break-word;
+            max-width: 100%;
+            position: relative;
+        }
+
+        .chat-box .messages p::before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid #f4f4f4;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            left: -10px;
+            top: 10px;
+        }
+
+        .chat-box .messages p::after {
+            content: "";
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-left: 10px solid #ccc;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            position: absolute;
+            left: -9px;
+            top: 10px;
+        }
+
+        .chat-box .bot-message {
+            text-align: left;
+            margin-left: 50px;
+        }
+
+        .chat-box .user-message {
+            text-align: right;
+            margin-right: 50px;
+        }
+
+        .chat-box .btn {
+            background-color: #235bd9;
+            color: white;
+            padding: 5px 30px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            float: right;
+        }
+
+        .chat-box .btn:hover {
+            background-color: #3e8e41;
+        }
