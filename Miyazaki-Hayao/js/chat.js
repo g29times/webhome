@@ -1,5 +1,5 @@
 // Connect to the WebSocket server
-    const socket = new WebSocket('ws://localhost:8080/chat/chatSocket');
+    const socket = new WebSocket('ws://47.76.66.78:8080/chat/chatSocket');
 
     // When the WebSocket is open
     socket.addEventListener('open', (event) => {
