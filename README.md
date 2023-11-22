@@ -29,4 +29,7 @@
       
       # 测试
       curl http://localhost:8080/chat/chat?msg=Hi
+      
+      # 启动前端
+      检查chat.js ws://47.76.66.78 改为实际公网ip
       ```
