@@ -1,0 +1,1 @@
+M: && cd M:\WorkSpace\Releases\webhome && git pull
